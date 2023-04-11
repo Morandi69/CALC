@@ -3,9 +3,12 @@ package com.example.calc
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 
 import android.widget.TextView
+import android.widget.Toast
 import net.objecthunter.exp4j.ExpressionBuilder
 
 class MainActivity : AppCompatActivity() {
@@ -57,6 +60,43 @@ class MainActivity : AppCompatActivity() {
                 Log.d("Error","Message: ${e.message}")
             }
         }
+
+        var inputtext = findViewById<TextView>(R.id.math_operation)
+        inputtext.addTextChangedListener(object :TextWatcher{
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                val inputText=findViewById<TextView>(R.id.math_operation).text.toString()
+                val  count=inputText.length-1
+                findViewById<TextView>(R.id.math_result).text=""
+                for ( i in 0..count){
+                    if(inputText[i]=='/'&& i<count){
+                        var j =i+1
+                        var tempStr =""
+                        while (j<=count){
+                            if(inputText[j]=='*'||inputText[j]=='-'||inputText[j]=='+'||inputText[j]=='='){
+                                break
+                            }
+                            tempStr=tempStr+inputText[j]
+                            j++
+                        }
+                        if(tempStr.toDouble()==0.0){
+                            findViewById<TextView>(R.id.math_result).text="Нельзя делить на ноль"
+                        }
+                    }
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+
     }
 
     //Добавляем цифру
@@ -64,8 +104,11 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.math_operation).append(str)
     }
 
+
+
     //Добавляем знак и проверям что-бы они не повторялись
     fun setSignFields(str:String){
+
         if(findViewById<TextView>(R.id.math_operation).text.length==0){
             return
         }
@@ -98,6 +141,8 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.math_operation).append(str)
     }
+
+
 
 
 }

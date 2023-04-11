@@ -18,6 +18,41 @@
 ## Основной слой вертикальный, на нем располагаются элементы TextView для ввода/вывода данных. Для кнопок использовал тоже TextView сгрупировав их в ряды по 4 штуки
 ## Написал 2 функции: одну для ввода цифр и вторую для ввода математических знаков. При вводе знаков проверяю на корректность. Для каждой кнопки установил слушателя, который вызывает функцию.
 ## Для выполнения математических операций использовал библиотеку exp4j - https://github.com/fasseg/exp4j/
+# Деление на 0
+            var inputtext = findViewById<TextView>(R.id.math_operation)
+                    inputtext.addTextChangedListener(object :TextWatcher{
+
+                        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                        }
+
+                        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                            val inputText=findViewById<TextView>(R.id.math_operation).text.toString()
+                            val  count=inputText.length-1
+                            findViewById<TextView>(R.id.math_result).text=""
+                            for ( i in 0..count){
+                                if(inputText[i]=='/'&& i<count){
+                                    var j =i+1
+                                    var tempStr =""
+                                    while (j<=count){
+                                        if(inputText[j]=='*'||inputText[j]=='-'||inputText[j]=='+'||inputText[j]=='='){
+                                            break
+                                        }
+                                        tempStr=tempStr+inputText[j]
+                                        j++
+                                    }
+                                    if(tempStr.toDouble()==0.0){
+                                        findViewById<TextView>(R.id.math_result).text="Нельзя делить на ноль"
+                                    }
+                                }
+                            }
+                        }
+
+                        override fun afterTextChanged(p0: Editable?) {
+
+                        }
+
+                    })
 # XML
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -303,3 +338,4 @@
         
 ![](phone1.png)
 ![](phone2.png)
+![](NotEqualesZero2.png)
