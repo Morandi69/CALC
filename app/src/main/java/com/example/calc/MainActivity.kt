@@ -86,8 +86,17 @@ class MainActivity : AppCompatActivity() {
                         if(tempStr.toDouble()==0.0){
                             findViewById<TextView>(R.id.math_result).text="Нельзя делить на ноль"
                         }
+                        if (tempStr[0]=='0' && tempStr.contains('.')==false){
+                            findViewById<TextView>(R.id.math_result).text="Нельзя делить на ноль"
+                        }
                     }
                 }
+                if(findViewById<TextView>(R.id.math_result).text=="Нельзя делить на ноль"){
+                    findViewById<TextView>(R.id.button_result).setEnabled(false)
+                }else{
+                    findViewById<TextView>(R.id.button_result).setEnabled(true)
+                }
+
             }
 
             override fun afterTextChanged(p0: Editable?) {
